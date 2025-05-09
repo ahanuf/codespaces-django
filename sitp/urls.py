@@ -1,8 +1,8 @@
 """
-URL configuration for hello_world project.
+URL configuration for sitp project.
 
 The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/5.0/topics/http/urls/
+    https://docs.djangoproject.com/en/5.1/topics/http/urls/
 Examples:
 Function views
     1. Add an import:  from my_app import views
@@ -20,11 +20,11 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 
-from hello_world.core import views as core_views
-
 urlpatterns = [
-    path("", core_views.index),
     path("admin/", admin.site.urls),
+    path("", include('apps.urls')),
+    path('ckeditor5/', include('django_ckeditor_5.urls')),
+    path('accounts/',include('allauth.urls')),
     path("__reload__/", include("django_browser_reload.urls")),
 ]
 if settings.DEBUG:
