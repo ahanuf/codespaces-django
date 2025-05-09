@@ -3,7 +3,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from . import views
 
-app_name = "app"
+app_name = "apps"
 
 urlpatterns = [
     path("", views.post_list, name="post_list"),

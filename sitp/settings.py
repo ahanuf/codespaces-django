@@ -44,12 +44,12 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "apps",
     "allauth",
     "allauth.account",
     "allauth.socialaccount",
     "django_ckeditor_5",
     "taggit",
-    "apps",
     "widget_tweaks",
 ]
 
@@ -82,7 +82,7 @@ TEMPLATES = [
                 'django.template.context_processors.static',
                 'django.template.context_processors.tz',
                 "django.contrib.messages.context_processors.messages",
-                "app.views.categories"
+                "apps.views.categories"
             ],
         },
     },

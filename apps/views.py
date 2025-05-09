@@ -6,7 +6,7 @@ from django.http import HttpResponseForbidden
 from django.contrib import messages
 from django.db import models
 from .models import Post, Category, Comment, Profile
-from .forms import PostForm, CommentForm#,EditorForm
+from .forms import PostForm, CommentForm
 
 ####
 def categories(request):
@@ -14,19 +14,6 @@ def categories(request):
         "categories": Category.objects.all()
     }
     
-# def editor(request):
-#     if request.method == 'POST':
-#         form = EditorForm(request.POST, request.FILES)
-#         if form.is_valid():
-#             post = form.save(commit=False)
-#             post.author = request.user
-#             post.save()
-#             form.save_m2m()
-#             return redirect(post.get_absolute_url())
-#     else:
-#         form = EditorForm()
-
-#     return render(request, "app/editor.html", {"form": form, "title": "Editor's"})
 
 
 # Create your views here.
@@ -34,20 +21,20 @@ def post_list(request):
     posts = Post.objects.filter(published=True).order_by("-created_at")
     categories = Category.objects.all()
     context = {"posts": posts, "categories": categories}
-    return render(request, "app/post_list.html", context)
+    return render(request, "apps/post_list.html", context)
 
 
 def post_by_category(request, slug):
     category = get_object_or_404(Category, slug=slug)
     posts = Post.objects.filter(category=category, published=True)
     context = {"posts": posts, "filter_title": f"category:{category.name}"}
-    return render(request, "app/post_list.html", context)
+    return render(request, "apps/post_list.html", context)
 
 
 def post_by_tag(request, tag_slug):
     posts = Post.objects.filter(tags__slug=tag_slug, published=True)
     context = {"posts": posts, "filter_title": f"Tag {tag_slug}"}
-    return render(request, "app/post_list.html", context)
+    return render(request, "apps/post_list.html", context)
 
 
 def search_posts(request):
@@ -62,7 +49,7 @@ def search_posts(request):
         "query": query,
         "filter_title": f'Search results for " {query} "',
     }
-    return render(request, "app/post_list.html", context)
+    return render(request, "apps/post_list.html", context)
 
 
 def post_detail(request, slug):
@@ -84,7 +71,7 @@ def post_detail(request, slug):
         form = CommentForm()
 
     context = {"post": post, "comments": comments, "form": form}
-    return render(request, "app/post_detail.html", context)
+    return render(request, "apps/post_detail.html", context)
 
 
 @login_required
@@ -102,7 +89,7 @@ def post_create(request):
     else:
         form = PostForm()
 
-    return render(request, "app/post_form.html", {"form": form, "title": "create post"})
+    return render(request, "apps/post_form.html", {"form": form, "title": "create post"})
 
 
 @login_required
@@ -120,7 +107,7 @@ def post_edit(request, slug):
     else:
         form = PostForm(instance=post)
 
-    return render(request, "app/post_form.html", {"form": form, "title": "Edit Post"})
+    return render(request, "apps/post_form.html", {"form": form, "title": "Edit Post"})
 
 
 @login_required
@@ -132,8 +119,8 @@ def post_delete(request, slug):
     if request.method == "POST":
         post.delete()
         messages.success(request, "post deleted successfully.")
-        return redirect("app:post_list")
-    return render(request, "app/post_confirm_delete.html", {"post": post})
+        return redirect("apps:post_list")
+    return render(request, "apps/post_confirm_delete.html", {"post": post})
 
 
 def profile_detail(request, username):
@@ -141,9 +128,9 @@ def profile_detail(request, username):
     user = get_object_or_404(User, username=username)
     # Get or create the profile for this user
     profile, created = Profile.objects.get_or_create(user=user)
-    return render(request, "app/profile_detail.html", {"profile": profile})
+    return render(request, "apps/profile_detail.html", {"profile": profile})
 
 
 def custom_login_redirect(request):
     username = request.user.username
-    return redirect(reverse("app:profile_detail", kwargs={"username": username}))
+    return redirect(reverse("apps:profile_detail", kwargs={"username": username}))
