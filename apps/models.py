@@ -3,6 +3,8 @@ from django.urls import reverse
 from django.contrib.auth.models import User
 from django_ckeditor_5.fields import CKEditor5Field
 from taggit.managers import TaggableManager
+from django.utils.text import slugify
+import itertools
 
 # from tinymce.models import HTMLField
 # Create your models here.
@@ -21,7 +23,7 @@ class Category(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse("app:posts_by_category", args=[self.slug])
+        return reverse("apps:posts_by_category", args=[self.slug])
 
 
 class Post(models.Model):
@@ -40,13 +42,20 @@ class Post(models.Model):
 
     def save(self, *args, **kwargs):
         if not self.slug:
-            from django.utils.text import slugify
-
-            self.slug = slugify(self.title)
+            base_slug = slugify(self.title)[:50]  # optional limit
+            slug = base_slug
+            for i in itertools.count(1):
+                if not Post.objects.filter(slug=slug).exists():
+                    break
+                slug = f"{base_slug}-{i}"
+                if len(slug) > 60:  # avoid overly long slugs
+                    slug = slug[:60]
+            self.slug = slug
         super().save(*args, **kwargs)
 
+
     def get_absolute_url(self):
-        return reverse("app:post_detail", args=[self.slug])
+        return reverse("apps:post_detail", args=[self.slug])
 
     def __str__(self):
         return self.title
