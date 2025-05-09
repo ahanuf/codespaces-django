@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ profile.user.username }}'s Profile - Advanced Blog{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+            <div class="card shadow-lg border-0 rounded-lg">
+                <div class="card-body text-center d-flex">
+                    <!-- Profile Avatar -->
+                    
+                    {% if profile.avatar %}
+                    <img 
+                    src="{{ profile.avatar.url }}" 
+                    alt="{{ profile.user.username }}" 
+                        class="rounded-circle border border-3 shadow-sm" 
+                        style="width: 120px; height: 120px; object-fit: cover;"
+                        />
+                        {% else %}
+                        <img
+                        src="{% static 'images/default_avatar.png' %}"
+                        alt="{{ profile.user.username }}"
+                        class="img-thumbnail rounded-circle"
+                        style="width: 150px"
+                    />
+                    {% endif %}
+                    <!-- Username & Bio -->
+                    <h2 class="mt-3 text-primary">{{ profile.user.username }}</h2>
+                    <p class="text-muted">{{ profile.bio|linebreaks }}</p>
+                    
+                    <!-- Social Links (Optional) -->
+                    <div class="mt-3">
+                        {% if profile.website %}
+                        <a href="{{ profile.website }}" target="_blank" class="btn btn-outline-dark btn-sm mx-1">
+                            <i class="fas fa-globe"></i> Website
+                        </a>
+                        {% endif %}
+                        {% if profile.twitter %}
+                        <a href="https://twitter.com/{{ profile.twitter }}" target="_blank" class="btn btn-outline-primary btn-sm mx-1">
+                            <i class="fab fa-twitter"></i> Twitter
+                        </a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+            
+            <!-- User's Blog Posts -->
+            <div class="mt-4">
+                <h4 class="text-secondary">Recent Posts</h4>
+                {% if profile.user.posts.all %}
+                <div class="list-group">
+                    {% for post in profile.user.posts.all %}
+                    <a href="{{ post.get_absolute_url }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+                        <div>
+                            <strong>{{ post.title }}</strong>
+                            <p class="small text-muted mb-0">{{ post.created_at|date:"M d, Y" }}</p>
+                        </div>
+                        <span class="badge bg-primary rounded-pill">{{ post.category }}</span>
+                    </a>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <p class="text-muted">No posts yet.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
