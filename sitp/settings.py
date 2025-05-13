@@ -27,7 +27,7 @@ SECRET_KEY = "django-insecure-)1zl4w_j!axw8v!d$4-g&!z3&$cqh!a&!-f987=3gtm)l%axbu
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 # DEBUG = config("DEBUG", default=True)
-ALLOWED_HOSTS = config("ALLOWED_HOSTS", default="").split(",") # type: ignore
+ALLOWED_HOSTS = config("ALLOWED_HOSTS", default="").split(",")  # type: ignore
 
 
 if "CODESPACE_NAME" in os.environ:
@@ -59,8 +59,8 @@ MIDDLEWARE = [
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "allauth.account.middleware.AccountMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
-    'django.middleware.common.CommonMiddleware',
-    'django_browser_reload.middleware.BrowserReloadMiddleware',
+    "django.middleware.common.CommonMiddleware",
+    "django_browser_reload.middleware.BrowserReloadMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
@@ -69,7 +69,9 @@ MIDDLEWARE = [
 
 X_FRAME_OPTIONS = "ALLOW-FROM preview.app.github.dev"
 ROOT_URLCONF = "sitp.urls"
-CSRF_TRUSTED_ORIGINS = ["https://localhost:8000",]
+CSRF_TRUSTED_ORIGINS = [
+    "https://localhost:8000",
+]
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
@@ -80,11 +82,11 @@ TEMPLATES = [
                 "django.template.context_processors.debug",
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
-                'django.template.context_processors.media',
-                'django.template.context_processors.static',
-                'django.template.context_processors.tz',
+                "django.template.context_processors.media",
+                "django.template.context_processors.static",
+                "django.template.context_processors.tz",
                 "django.contrib.messages.context_processors.messages",
-                "apps.views.categories"
+                "apps.views.categories",
             ],
         },
     },
@@ -177,7 +179,6 @@ MEDIA_ROOT = BASE_DIR / "media"
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
-
 customColorPalette = [
     {
         "color": "hsl(0, 75%, 60%)",
@@ -210,35 +211,83 @@ CKEDITOR_5_CONFIGS = {
         "language": {"ui": "en", "content": "en"},
         "toolbar": {
             "items": [
-                "undo", "redo", "|",
-                "heading", "|",
-                "bold", "italic", "underline", "strikethrough", "highlight", "|",
-                "subscript", "superscript", "removeFormat", "|",
-                "fontSize", "fontFamily", "fontColor", "fontBackgroundColor", "|",
-                "alignment", "|",
-                "bulletedList", "numberedList", "todoList", "|",
-                "outdent", "indent", "blockQuote", "horizontalLine", "|",
-                "code", "codeBlock", "htmlEmbed", "sourceEditing", "|",
-                "link", "insertImage", "mediaEmbed", "fileUpload", "|",
-                "insertTable", "findAndReplace", "specialCharacters", "selectAll", "|",
-                "showBlocks", "style", "pageBreak",
+                "undo",
+                "redo",
+                "|",
+                "heading",
+                "|",
+                "bold",
+                "italic",
+                "underline",
+                "strikethrough",
+                "highlight",
+                "|",
+                "subscript",
+                "superscript",
+                "removeFormat",
+                "|",
+                "fontSize",
+                "fontFamily",
+                "fontColor",
+                "fontBackgroundColor",
+                "|",
+                "alignment",
+                "|",
+                "bulletedList",
+                "numberedList",
+                "todoList",
+                "|",
+                "outdent",
+                "indent",
+                "blockQuote",
+                "horizontalLine",
+                "|",
+                "code",
+                "codeBlock",
+                "htmlEmbed",
+                "sourceEditing",
+                "|",
+                "link",
+                "insertImage",
+                "mediaEmbed",
+                "fileUpload",
+                "|",
+                "insertTable",
+                "findAndReplace",
+                "specialCharacters",
+                "selectAll",
+                "|",
+                "showBlocks",
+                "style",
+                "pageBreak",
             ],
             "shouldNotGroupWhenFull": True,
         },
         "image": {
             "toolbar": [
-                "imageTextAlternative", "|",
-                "imageStyle:block", "imageStyle:side",
-                "imageStyle:alignLeft", "imageStyle:alignCenter", "imageStyle:alignRight", "|",
-                "resizeImage:50", "resizeImage:75", "resizeImage:100",
+                "imageTextAlternative",
+                "|",
+                "imageStyle:block",
+                "imageStyle:side",
+                "imageStyle:alignLeft",
+                "imageStyle:alignCenter",
+                "imageStyle:alignRight",
+                "|",
+                "resizeImage:50",
+                "resizeImage:75",
+                "resizeImage:100",
             ],
             "resizeUnit": "px",
             "styles": ["full", "side", "alignLeft", "alignCenter", "alignRight"],
         },
         "table": {
             "contentToolbar": [
-                "tableColumn", "tableRow", "mergeTableCells",
-                "tableProperties", "tableCellProperties", "toggleTableCaption",
+                "tableColumn",
+                "tableRow",
+                "mergeTableCells",
+                "tableProperties",
+                "tableCellProperties",
+                "toggleTableCaption",
             ],
             "tableProperties": {
                 "borderColors": customColorPalette,
@@ -251,13 +300,47 @@ CKEDITOR_5_CONFIGS = {
         },
         "heading": {
             "options": [
-                {"model": "paragraph", "title": "Paragraph", "class": "ck-heading_paragraph"},
-                {"model": "heading1", "view": "h1", "title": "Heading 1", "class": "ck-heading_heading1"},
-                {"model": "heading2", "view": "h2", "title": "Heading 2", "class": "ck-heading_heading2"},
-                {"model": "heading3", "view": "h3", "title": "Heading 3", "class": "ck-heading_heading3"},
-                {"model": "heading4", "view": "h4", "title": "Heading 4", "class": "ck-heading_heading4"},
-                {"model": "heading5", "view": "h5", "title": "Heading 5", "class": "ck-heading_heading5"},
-                {"model": "heading6", "view": "h6", "title": "Heading 6", "class": "ck-heading_heading6"},
+                {
+                    "model": "paragraph",
+                    "title": "Paragraph",
+                    "class": "ck-heading_paragraph",
+                },
+                {
+                    "model": "heading1",
+                    "view": "h1",
+                    "title": "Heading 1",
+                    "class": "ck-heading_heading1",
+                },
+                {
+                    "model": "heading2",
+                    "view": "h2",
+                    "title": "Heading 2",
+                    "class": "ck-heading_heading2",
+                },
+                {
+                    "model": "heading3",
+                    "view": "h3",
+                    "title": "Heading 3",
+                    "class": "ck-heading_heading3",
+                },
+                {
+                    "model": "heading4",
+                    "view": "h4",
+                    "title": "Heading 4",
+                    "class": "ck-heading_heading4",
+                },
+                {
+                    "model": "heading5",
+                    "view": "h5",
+                    "title": "Heading 5",
+                    "class": "ck-heading_heading5",
+                },
+                {
+                    "model": "heading6",
+                    "view": "h6",
+                    "title": "Heading 6",
+                    "class": "ck-heading_heading6",
+                },
             ],
         },
         "list": {
@@ -279,11 +362,13 @@ CKEDITOR_5_CONFIGS = {
             "definitions": [
                 {"name": "Article Category", "element": "h3", "classes": ["category"]},
                 {"name": "Info Box", "element": "p", "classes": ["info-box"]},
-                {"name": "Important Text", "element": "p", "classes": ["important-text"]},
+                {
+                    "name": "Important Text",
+                    "element": "p",
+                    "classes": ["important-text"],
+                },
                 {"name": "Note", "element": "div", "classes": ["note"]},
             ],
         },
     }
 }
-
-
